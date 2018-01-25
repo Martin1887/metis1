@@ -4,11 +4,17 @@
 #include "../abstract_task.h"
 #include "../pruning_method.h"
 
+namespace options {
+class OptionParser;
+class Options;
+}
+
 namespace stubborn_sets {
 inline FactPair find_unsatisfied_condition(
     const std::vector<FactPair> &conditions, const State &state);
 
 class StubbornSets : public PruningMethod {
+    const double minimum_pruning_ratio;
     long num_unpruned_successors_generated;
     long num_pruned_successors_generated;
 
@@ -32,8 +38,10 @@ protected:
       We copy some parts of the task here, so we can avoid the more expensive
       access through the task interface during the search.
     */
+    bool has_conditional_effects;
     int num_operators;
     std::vector<std::vector<FactPair>> sorted_op_preconditions;
+    std::vector<std::vector<FactPair>> sorted_op_effect_conditions;
     std::vector<std::vector<FactPair>> sorted_op_effects;
     std::vector<FactPair> sorted_goals;
 
@@ -82,6 +90,7 @@ protected:
     virtual void initialize_stubborn_set(const State &state) = 0;
     virtual void handle_stubborn_operator(const State &state, int op_no) = 0;
 public:
+    explicit StubbornSets(const options::Options &options);
     virtual void initialize(const std::shared_ptr<AbstractTask> &task) override;
 
     /* TODO: move prune_operators, and also the statistics, to the
@@ -89,7 +98,10 @@ public:
        interface more obvious */
     virtual void prune_operators(const State &state,
                                  std::vector<OperatorID> &op_ids) override;
+    virtual bool pruning_below_minimum_ratio() const override;
     virtual void print_statistics() const override;
+
+    static void add_options_to_parser(options::OptionParser &parser);
 };
 
 // Return the first unsatified condition, or FactPair::no_fact if there is none.
