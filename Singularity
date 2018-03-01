@@ -52,6 +52,6 @@ From: ubuntu
 Name        Metis1
 Description A remake of Metis that participated in IPC2014. It uses partial order reduction (simple stubborn sets) with a safety belt that turns off pruning if not enough pruning happens and with support for conditional effects, symmetry-based pruning (OSS), the h2 preprocessor of Alcázar and Torralba, and the lmcut heuristic with support for conditional effects.
 Authors     Silvan Sievers <silvan.sievers@unibas.ch> and Michael Katz <michael.katz1@ibm.com>
-SupportsDerivedPredicates yes
+SupportsDerivedPredicates no
 SupportsQuantifiedPreconditions no
 SupportsQuantifiedEffects no
