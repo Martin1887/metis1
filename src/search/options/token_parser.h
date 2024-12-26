@@ -3,6 +3,7 @@
 
 #include "predefinitions.h"
 
+#include <limits>
 #include <sstream>
 
 class Evaluator;

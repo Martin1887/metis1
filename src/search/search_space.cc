@@ -9,6 +9,7 @@
 #include "task_utils/successor_generator.h"
 
 #include <cassert>
+#include <limits>
 #include "search_node_info.h"
 
 using namespace std;
