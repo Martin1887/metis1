@@ -99,7 +99,8 @@ def run_translate(args):
 def transform_task(args):
     logging.info("Run task transformation (%s)." % args.transform_task)
     try:
-        call_component(args.transform_task, [], stdin=args.search_input)
+        preprocess = get_executable(args.build, args.transform_task)
+        call_component(preprocess, [], stdin=args.search_input)
         # The output file is hardcoded in preprocess-h2
         args.search_input = "output.sas"
     except OSError as err:
