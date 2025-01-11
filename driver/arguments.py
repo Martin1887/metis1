@@ -86,7 +86,7 @@ Examples:
 %s
 """ % "\n\n".join("%s\n%s" % (desc, " ".join(cmd)) for desc, cmd in EXAMPLES)
 
-COMPONENTS_PLUS_OVERALL = ["translate", "search", "overall"]
+COMPONENTS_PLUS_OVERALL = ["translate", "preprocess", "search", "overall"]
 
 
 class RawHelpFormatter(argparse.HelpFormatter):
@@ -205,6 +205,8 @@ def _set_components_and_inputs(parser, args):
     args.components = []
     if args.translate or args.run_all:
         args.components.append("translate")
+    if args.transform_task or args.run_all:
+        args.components.append("preprocess")
     if args.search or args.run_all:
         args.components.append("search")
 
@@ -238,7 +240,7 @@ def _set_components_and_inputs(parser, args):
             args.translate_inputs = args.filenames
         else:
             parser.error("translator needs one or two input files")
-    elif first == "search":
+    elif first == "preprocess" or first == "search":
         if "--help" in args.search_options:
             args.search_input = None
         elif num_files == 1:
